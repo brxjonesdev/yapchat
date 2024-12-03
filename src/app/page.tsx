@@ -1,101 +1,115 @@
-import Image from "next/image";
+'use client'
+
+import { useState } from 'react'
+import { Search, Plus } from 'lucide-react'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+
+import { Separator } from '@/components/ui/separator'
+import { Label } from '@/components/ui/label'
+import UserInfo from '@/components/util/user-info'
+
+const popularRooms = [
+  { id: 4, name: 'PM Yap 1', members: 200 },
+  { id: 5, name: 'PM Yap 2', members: 150 },
+  { id: 6, name: 'PM Yap 3', members: 100 },
+]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [searchQuery, setSearchQuery] = useState('')
+  const [newRoomName, setNewRoomName] = useState('')
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Searching for:', searchQuery)
+    // Implement search logic here
+  }
+
+  const handleCreateRoom = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Creating room:', newRoomName)
+    // Implement room creation logic here
+    setNewRoomName('')
+  }
+
+  const handleJoinRoom = (roomId: number) => {
+    console.log('Joining room:', roomId)
+    // Implement room joining logic here
+  }
+
+  return (<>
+    <CardHeader>
+        <CardTitle>Welcome to Yap</CardTitle>
+        <CardDescription>An attempt of reviving the old school online chat room</CardDescription>
+      </CardHeader>
+      <Separator/>
+    <CardContent className="flex gap-4 flex-1 pt-4">
+    <section className='flex flex-col gap-4 w-1/4'>
+    <UserInfo/>
+    <form onSubmit={handleSearch} className="flex flex-col gap-3">
+      <Label htmlFor="search-rooms">Search for a room by code</Label>
+      <Input
+        type="text"
+        placeholder="Search for rooms..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="flex-grow"
+      />
+      <Button type="submit" variant="secondary">
+        <Search className="w-4 h-4 mr-2" />
+        Search
+      </Button>
+    </form>
+    <form onSubmit={handleCreateRoom} className="flex gap-3 flex-col">
+      <Label htmlFor="new-room-name">Create a new room</Label>
+      <Input
+        type="text"
+        placeholder="New room name"
+        value={newRoomName}
+        onChange={(e) => setNewRoomName(e.target.value)}
+        className="flex-grow"
+      />
+      <Button type="submit">
+        <Plus className="w-4 h-4 mr-2" />
+        Create Room
+      </Button>
+    </form>
+    </section>
+
+    <Separator orientation='vertical' />
+
+
+  <section className='flex-1 flex flex-col gap-4'>
+    <div className='space-y-2'>
+      <div>
+      <h3 className='text-lg font-bold'>Public Yaps</h3>
+      <p className='text-muted-foreground text-sm'>Join a public moderated room.</p></div>
+      <div className='flex gap-4'>
+        {popularRooms.map((room) => (
+          <Card key={room.id} className="flex items-center justify-between gap-4 p-4 w-full">
+            <div>
+              <CardTitle>{room.name}</CardTitle>
+              <CardDescription>{room.members} members</CardDescription>
+            </div>
+            <Button onClick={() => handleJoinRoom(room.id)}>Join</Button>
+          </Card>
+        ))}
+      </div>
     </div>
-  );
+    
+    <div className='flex-1 bg-white/10 rounded-xl flex items-center justify-center flex-col'>
+    <p>
+      You are not currently in any rooms.
+    </p>
+    <p>
+    Join a public room or create a new one.
+    </p>
+
+    </div>
+    
+  </section>
+  </CardContent>
+  </>)
 }
+
