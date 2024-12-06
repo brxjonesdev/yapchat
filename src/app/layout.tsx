@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Onest, Unbounded} from "next/font/google"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from '@/components/ui/separator'
+import { Card} from "@/components/ui/card"
 
 
 const onest = Onest({
@@ -33,7 +32,7 @@ export default function RootLayout({
       >
         <main className="bg-background h-full flex flex-col w-full text-white gap-6 py-4 font-onest"> 
         <section className="flex-1 max-w-7xl mx-auto w-full">
-      {/* Update this card */}
+
     <Card className="w-full mx-auto h-full flex flex-col">
     {children}
     </Card>
